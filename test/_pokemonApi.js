@@ -14,4 +14,8 @@ describe("Pokemon API Server", () => {
   beforeEach(() => {
     request = chai.request(server);
   });
+  it("should return an array of 100 pokemon", async () => {
+    const result = await request.get("/api/pokemon");
+    chai.expect(result.length).to.equal(100);
+  });
 });
