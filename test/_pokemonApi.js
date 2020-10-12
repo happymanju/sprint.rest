@@ -1,5 +1,6 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
+const pokeData = require("../src/data");
 chai.use(chaiHttp);
 const { setupServer } = require("../src/server");
 chai.should();
@@ -27,15 +28,14 @@ describe("Pokemon API Server", () => {
     chai.expect(result.body.length).to.equal(5);
   });
 
-  it("should add a pokemon", async (done) => {
+  it("should add a pokemon", async () => {
     const expected = {
       id: "152",
       name: "Michael-mon",
     };
 
     const response = await request.post("/api/pokemon/").send(expected);
-    response.should.be.json;
     response.should.have.status(201);
-    //chai.expect(poke.body.length).to.equal(152);
+    chai.expect(pokeData.pokemon.length).to.equal(152);
   });
 });
