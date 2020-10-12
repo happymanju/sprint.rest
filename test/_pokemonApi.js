@@ -26,4 +26,16 @@ describe("Pokemon API Server", () => {
     result.should.be.json;
     chai.expect(result.body.length).to.equal(5);
   });
+
+  it("should add a pokemon", async (done) => {
+    const expected = {
+      id: "152",
+      name: "Michael-mon",
+    };
+
+    const response = await request.post("/api/pokemon/").send(expected);
+    response.should.be.json;
+    response.should.have.status(201);
+    //chai.expect(poke.body.length).to.equal(152);
+  });
 });

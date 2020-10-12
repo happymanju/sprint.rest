@@ -14,6 +14,13 @@ const setupServer = () => {
     res.send(result);
   });
 
+  app.post("/api/pokemon/", (req, res) => {
+    const newPoke = req;
+    pokeData.pokemon.push(newPoke);
+    console.log("updated pokedata length", pokeData.pokemon.length);
+    res.sendStatus(201);
+  });
+
   return app;
 };
 
