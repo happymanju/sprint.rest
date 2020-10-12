@@ -7,9 +7,11 @@ const setupServer = () => {
    */
   const app = express();
 
-  app.get("/api/pokemon", (req, res) => {
+  app.get("/api/pokemon/", (req, res) => {
     const pokedex = pokeData.pokemon;
-    res.send(pokedex);
+    const limit = req.query.limit || 151;
+    const result = pokedex.slice(0, Number(limit));
+    res.send(result);
   });
 
   return app;

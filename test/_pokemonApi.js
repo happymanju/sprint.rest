@@ -20,4 +20,10 @@ describe("Pokemon API Server", () => {
     result.should.be.json;
     chai.expect(result.body.length).to.equal(151);
   });
+
+  it("should return an array of specified length", async () => {
+    const result = await request.get("/api/pokemon/").query({ limit: 5 });
+    result.should.be.json;
+    chai.expect(result.body.length).to.equal(5);
+  });
 });
