@@ -2,6 +2,7 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 chai.use(chaiHttp);
 const { setupServer } = require("../src/server");
+chai.should();
 
 /*
  * This sprint you will have to create all tests yourself, TDD style.
@@ -14,8 +15,9 @@ describe("Pokemon API Server", () => {
   beforeEach(() => {
     request = chai.request(server);
   });
-  it("should return an array of 100 pokemon", async () => {
+  it("should return an array of 151 pokemon", async () => {
     const result = await request.get("/api/pokemon");
-    chai.expect(result.length).to.equal(100);
+    result.should.be.json;
+    chai.expect(result.body.length).to.equal(151);
   });
 });

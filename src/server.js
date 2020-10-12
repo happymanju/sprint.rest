@@ -8,8 +8,8 @@ const setupServer = () => {
   const app = express();
 
   app.get("/api/pokemon", (req, res) => {
-    const pokedex = pokeData.pokemon.pokemon;
-    res.json(pokedex);
+    const pokedex = pokeData.pokemon;
+    res.send(pokedex);
   });
 
   return app;
