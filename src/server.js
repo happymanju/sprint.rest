@@ -67,6 +67,27 @@ const setupServer = () => {
     res.sendStatus(200);
   });
 
+  app.delete("/api/pokemon/:idOrName", (req, res) => {
+    const idOrName = req.params.idOrName;
+    let targetPoke = null;
+
+    if (isNaN(Number(idOrName))) {
+      // is a name
+      targetPoke = pokeData.pokemon.filter((poke) => {
+        return poke.name === String(idOrName);
+      });
+    } else if (!isNaN(Number(idOrName))) {
+      // is an id number
+      targetPoke = pokeData.pokemon.filter((poke) => {
+        return Number(poke.id) === Number(idOrName);
+      });
+    }
+
+    const indx = pokeData.pokemon.indexOf(targetPoke[0]);
+    pokeData.pokemon.splice(indx, 1);
+    res.sendStatus(200);
+  });
+
   return app;
 };
 

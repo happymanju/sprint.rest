@@ -50,11 +50,16 @@ describe("Pokemon API Server", () => {
     chai.expect(response.body.id).to.equal("001");
   });
 
-  it("should send a status 200 if patch is sucessful on a pokemon", async () => {
+  it("should send a status 200 and modify pokemon if patch is sucessful", async () => {
     const response = await request
       .patch("/api/pokemon/1")
       .query({ name: "Michael" });
     response.should.have.status(200);
     chai.expect(pokeData.pokemon[0].name).to.equal("Michael");
+  });
+  it("should delete a pokemon and send 200 if successful", async () => {
+    const response = await request.delete("/api/pokemon/1");
+    response.should.have.status(200);
+    chai.expect(pokeData.pokemon[0].name).to.equal("Ivysaur");
   });
 });
