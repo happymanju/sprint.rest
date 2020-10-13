@@ -114,6 +114,31 @@ const setupServer = () => {
     res.send(pokeEvos);
   });
 
+  app.get("/api/pokemon/:idOrName/evolutions/previous", (req, res) => {
+    const idOrName = req.params.idOrName;
+    let targetPoke = null;
+    let pokeEvos = [];
+
+    if (isNaN(Number(idOrName))) {
+      // is a name
+      targetPoke = pokeData.pokemon.filter((poke) => {
+        return poke.name === String(idOrName);
+      });
+      if (targetPoke[0]["Previous evolution(s)"]) {
+        pokeEvos = targetPoke[0]["Previous evolution(s)"];
+      }
+    } else if (!isNaN(Number(idOrName))) {
+      // is an id number
+      targetPoke = pokeData.pokemon.filter((poke) => {
+        return Number(poke.id) === Number(idOrName);
+      });
+      if (targetPoke[0]["Previous evolution(s)"]) {
+        pokeEvos = targetPoke[0]["Previous evolution(s)"];
+      }
+    }
+    res.send(pokeEvos);
+  });
+
   return app;
 };
 
