@@ -66,13 +66,24 @@ describe("Pokemon API Server", () => {
   it("should return evolutions if they exist", async () => {
     const response = await request.get("/api/pokemon/1/evolutions");
     const expectedEvos = pokeData.pokemon[1].evolutions;
-    // console.log("RESPONSE", response.body.evolutions);
     chai.expect(response.body.evolutions).to.deep.equal(expectedEvos);
+  });
+
+  it("should return empty array if no evolutions", async () => {
+    const response = await request.get("/api/pokemon/122/evolutions");
+    const expectedEvos = [];
+    chai.expect(response.body).to.deep.equal(expectedEvos);
   });
 
   it("should return previous evolutions if they exist", async () => {
     const response = await request.get("/api/pokemon/2/evolutions/previous");
     const expectedEvos = pokeData.pokemon[0]["Previous evolution(s)"];
+    chai.expect(response.body).to.deep.equal(expectedEvos);
+  });
+
+  it("should return empty array if no previous evolutions", async () => {
+    const response = await request.get("/api/pokemon/122/evolutions");
+    const expectedEvos = [];
     chai.expect(response.body).to.deep.equal(expectedEvos);
   });
 });
