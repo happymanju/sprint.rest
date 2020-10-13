@@ -62,4 +62,10 @@ describe("Pokemon API Server", () => {
     response.should.have.status(200);
     chai.expect(pokeData.pokemon[0].name).to.equal("Ivysaur");
   });
+
+  it("should return evolutions if they exist", async () => {
+    const response = await request.get("/api/pokemon/1/evolutions");
+    const expectedEvos = pokeData.pokemon[1].evolutions;
+    chai.expect(response.body.evolutions).to.deep.equal(expectedEvos);
+  });
 });
