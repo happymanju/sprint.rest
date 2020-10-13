@@ -34,7 +34,7 @@ const setupServer = () => {
     } else if (!isNaN(Number(idOrName))) {
       let targetPoke;
       for (const poke of pokeData.pokemon) {
-        if (poke.id === String(idOrName)) {
+        if (Number(poke.id) === Number(idOrName)) {
           targetPoke = poke;
           res.send(targetPoke);
         }
@@ -43,31 +43,25 @@ const setupServer = () => {
   });
 
   app.patch("/api/pokemon/:idOrName", (req, res) => {
-    console.log("HERE");
     const query = req.query;
+    const idOrName = req.params.idOrName;
+    let targetPoke = null;
 
     if (isNaN(Number(idOrName))) {
-      let targetPoke;
-      for (const poke of pokeData.pokemon) {
-        if (poke.name === String(idOrName)) {
-          targetPoke = poke;
-          res.send(targetPoke);
-        }
-      }
+      // is a name
+      targetPoke = pokeData.pokemon.filter((poke) => {
+        return poke.name === String(idOrName);
+      });
     } else if (!isNaN(Number(idOrName))) {
-      let targetPoke;
-      for (const poke of pokeData.pokemon) {
-        if (poke.id === String(idOrName)) {
-          targetPoke = poke;
-          res.send(targetPoke);
-        }
-      }
+      // is an id number
+      targetPoke = pokeData.pokemon.filter((poke) => {
+        return Number(poke.id) === Number(idOrName);
+      });
     }
 
-    console.log("TARGET", targetPoke);
-    console.log("QUERY", query);
-    for (let change in query) {
-      pokeData.pokemon[targetPoke][change] = query[change];
+    const indx = pokeData.pokemon.indexOf(targetPoke[0]);
+    for (const change in query) {
+      pokeData.pokemon[indx][change] = query[change];
     }
 
     res.sendStatus(200);

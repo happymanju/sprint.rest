@@ -1,3 +1,4 @@
+const { expect } = require("chai");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const pokeData = require("../src/data");
@@ -46,7 +47,7 @@ describe("Pokemon API Server", () => {
 
   it("should return a pokemon with a given ID", async () => {
     const response = await request.get("/api/pokemon/1");
-    chai.expect(response.body.id).to.equal(1);
+    chai.expect(response.body.id).to.equal("001");
   });
 
   it("should send a status 200 if patch is sucessful on a pokemon", async () => {
@@ -54,5 +55,6 @@ describe("Pokemon API Server", () => {
       .patch("/api/pokemon/1")
       .query({ name: "Michael" });
     response.should.have.status(200);
+    chai.expect(pokeData.pokemon[0].name).to.equal("Michael");
   });
 });
