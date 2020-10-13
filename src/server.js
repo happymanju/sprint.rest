@@ -139,6 +139,18 @@ const setupServer = () => {
     res.send(pokeEvos);
   });
 
+  app.get("/api/types", (req, res) => {
+    let limit;
+    if (req.query.limit) {
+      limit = req.query.limit;
+    }
+
+    let returnTypes = null;
+
+    returnTypes = pokeData.types.slice(0, limit);
+    res.send(returnTypes);
+  });
+
   return app;
 };
 

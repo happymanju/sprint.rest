@@ -86,4 +86,10 @@ describe("Pokemon API Server", () => {
     const expectedEvos = [];
     chai.expect(response.body).to.deep.equal(expectedEvos);
   });
+
+  it("should return list of all available types", async () => {
+    const response = await request.get("/api/types").query({ limit: 3 });
+    const expected = pokeData.types.slice(0, 3);
+    chai.expect(response.body).to.deep.equal(expected);
+  });
 });
