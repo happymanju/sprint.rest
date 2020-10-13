@@ -17,8 +17,60 @@ const setupServer = () => {
   app.post("/api/pokemon/", (req, res) => {
     const newPoke = req;
     pokeData.pokemon.push(newPoke);
-    console.log("updated pokedata length", pokeData.pokemon.length);
     res.sendStatus(201);
+  });
+
+  app.get("/api/pokemon/:idOrName", (req, res) => {
+    const idOrName = req.params.idOrName;
+
+    if (isNaN(Number(idOrName))) {
+      let targetPoke;
+      for (const poke of pokeData.pokemon) {
+        if (poke.name === String(idOrName)) {
+          targetPoke = poke;
+          res.send(targetPoke);
+        }
+      }
+    } else if (!isNaN(Number(idOrName))) {
+      let targetPoke;
+      for (const poke of pokeData.pokemon) {
+        if (poke.id === String(idOrName)) {
+          targetPoke = poke;
+          res.send(targetPoke);
+        }
+      }
+    }
+  });
+
+  app.patch("/api/pokemon/:idOrName", (req, res) => {
+    console.log("HERE");
+    const query = req.query;
+
+    if (isNaN(Number(idOrName))) {
+      let targetPoke;
+      for (const poke of pokeData.pokemon) {
+        if (poke.name === String(idOrName)) {
+          targetPoke = poke;
+          res.send(targetPoke);
+        }
+      }
+    } else if (!isNaN(Number(idOrName))) {
+      let targetPoke;
+      for (const poke of pokeData.pokemon) {
+        if (poke.id === String(idOrName)) {
+          targetPoke = poke;
+          res.send(targetPoke);
+        }
+      }
+    }
+
+    console.log("TARGET", targetPoke);
+    console.log("QUERY", query);
+    for (let change in query) {
+      pokeData.pokemon[targetPoke][change] = query[change];
+    }
+
+    res.sendStatus(200);
   });
 
   return app;

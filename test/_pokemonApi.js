@@ -38,4 +38,21 @@ describe("Pokemon API Server", () => {
     response.should.have.status(201);
     chai.expect(pokeData.pokemon.length).to.equal(152);
   });
+
+  it("should return a pokemon with a given name", async () => {
+    const response = await request.get("/api/pokemon/Bulbasaur");
+    chai.expect(response.body.name).to.equal("Bulbasaur");
+  });
+
+  it("should return a pokemon with a given ID", async () => {
+    const response = await request.get("/api/pokemon/1");
+    chai.expect(response.body.id).to.equal(1);
+  });
+
+  it("should send a status 200 if patch is sucessful on a pokemon", async () => {
+    const response = await request
+      .patch("/api/pokemon/1")
+      .query({ name: "Michael" });
+    response.should.have.status(200);
+  });
 });
